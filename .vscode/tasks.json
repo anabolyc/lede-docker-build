@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build: build image",
+            "type": "shell",
+            "command": "docker build -t $(cat tag) .",
+            "problemMatcher": []
+        },
+        {
+            "label": "build: run bash",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source $(cat tag) /bin/bash",
+            "problemMatcher": []
+        },
+        {
+            "label": "build: prepare",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source $(cat tag) /source/scripts/feeds update -a",
+            "problemMatcher": []
+        },
+        {
+            "label": "build: autoconfig",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source $(cat tag) python ./scripts/onion-setup-build.py -c .config.O2-minimum",
+            "problemMatcher": []
+        },
+        {
+            "label": "build: make menuconfig",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source $(cat tag) make menuconfig",
+            "problemMatcher": []
+        },
+        {
+            "label": "build: make",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source $(cat tag) make",
+            "problemMatcher": []
+        }
+    ]
+}
