@@ -36,6 +36,36 @@
             "type": "shell",
             "command": "docker run -it --rm -v $PWD/source:/source $(cat tag) make",
             "problemMatcher": []
+        },
+        {
+            "label": "build snapcast: run bash",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source -v $PWD/snapos-openwrt18/openwrt/snapcast:/source/package/snapcast -v $PWD/snapos-openwrt18/openwrt/aixlog:/source/package/aixlog -v $PWD/snapos-openwrt18/openwrt/asio:/source/package/asio -v $PWD/snapos-openwrt18/openwrt/popl:/source/package/popl $(cat tag) /bin/bash",
+            "problemMatcher": []
+        },
+        {
+            "label": "build snapcast: prepare",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source -v $PWD/snapos-openwrt18/openwrt/snapcast:/source/package/snapcast -v $PWD/snapos-openwrt18/openwrt/aixlog:/source/package/aixlog -v $PWD/snapos-openwrt18/openwrt/asio:/source/package/asio -v $PWD/snapos-openwrt18/openwrt/popl:/source/package/popl $(cat tag) /source/scripts/feeds update -a",
+            "problemMatcher": []
+        },
+        {
+            "label": "build snapcast: make menuconfig",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source -v $PWD/snapos-openwrt18/openwrt/snapcast:/source/package/snapcast -v $PWD/snapos-openwrt18/openwrt/aixlog:/source/package/aixlog -v $PWD/snapos-openwrt18/openwrt/asio:/source/package/asio -v $PWD/snapos-openwrt18/openwrt/popl:/source/package/popl $(cat tag) /bin/bash -c \"cd /source; make defconfig && make menuconfig\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "build snapcast: make",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source -v $PWD/snapos-openwrt18/openwrt/snapcast:/source/package/snapcast -v $PWD/snapos-openwrt18/openwrt/aixlog:/source/package/aixlog -v $PWD/snapos-openwrt18/openwrt/asio:/source/package/asio -v $PWD/snapos-openwrt18/openwrt/popl:/source/package/popl $(cat tag) make",
+            "problemMatcher": []
+        },
+        {
+            "label": "build snapcast: make (verbose)",
+            "type": "shell",
+            "command": "docker run -it --rm -v $PWD/source:/source -v $PWD/snapos-openwrt18/openwrt/snapcast:/source/package/snapcast -v $PWD/snapos-openwrt18/openwrt/aixlog:/source/package/aixlog -v $PWD/snapos-openwrt18/openwrt/asio:/source/package/asio -v $PWD/snapos-openwrt18/openwrt/popl:/source/package/popl $(cat tag) make -j1 V=s",
+            "problemMatcher": []
         }
     ]
 }

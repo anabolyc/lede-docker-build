@@ -23,7 +23,7 @@ Run vscode task: `build: make menuconfig`
 5. Run build inside container:
 Run vscode task: `build: make`
 
-Throughout all above steps local `source` folder is mounted into container and all commands are executed inside that container. Therefore after each of those steps output will be sitting plain in `source` folder.
+Throughout all above steps local `source` folder is mounted into container and all commands are executed inside that container. Therefore after each of those steps output will be sitting plain in the `source` folder.
 
 When build completes you'll find artifacts in `./source/staging_dir` folder:
 ```
@@ -40,8 +40,31 @@ drwxr-xr-x 11 root      root      4096 Dec 30 12:12 toolchain-mipsel_24kc_gcc-7.
 
 ### Notes
 
-I didn't use [this image](https://hub.docker.com/r/onion/omega2-source) suggested by Onion team, since it has sources included already. Instead i want to mount them from work folder, hence another image to serve that purpose.
+I didn't use [this image](https://hub.docker.com/r/onion/omega2-source) suggested by Onion team, since it has sources included already. Instead I want to mount them from work folder, hence another image and Dockerfile.
+
+### Extra: build snapclient with openwrt build system
+
+1. Prepare build inside container:
+Run vscode task: `build snapcast: prepare`
+2. Run menuconfig inside container:
+Run vscode task: `build snapcast: make menuconfig`. Then you will need to navigate to Multimedia/Snapcast and select snapserver and/or snapclient. Save config before exit.
+3. Run build inside container:
+Run vscode task: `build snapcast: make`
+
+If everything goes smooth, ipk files will be placed on the path below:
+```
+$ ls -la source/bin/packages/mipsel_24kc/base/snap*
+-rw-r--r-- 1 root root 141476 Jan  1 13:55 source/bin/packages/mipsel_24kc/base/snapclient_0.15.2_mipsel_24kc.ipk
+-rw-r--r-- 1 root root 257065 Jan  1 13:55 source/bin/packages/mipsel_24kc/base/snapserver_0.15.2_mipsel_24kc.ipk
+```
+Next you need to transfer ipks to target device and install them via `opkg`
+```
+$ opkg update
+$ opkg install /tmp/snapclient_0.15.2_mips_24kc.ipk
+```
 
 ### Links
 - [OnionIoT/source](https://github.com/onioniot/source)
 - [Cross-Compiling for the Omega](https://docs.onion.io/omega2-docs/cross-compiling.html)
+- [badaix/snapos](https://github.com/badaix/snapos)
+- [badaix/snapcast](https://github.com/badaix/snapcast)

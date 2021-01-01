@@ -1,3 +1,15 @@
 [submodule "source"]
 	path = source
 	url = https://github.com/OnionIoT/source.git
+[submodule "snapos"]
+	path = snapos
+	url = https://github.com/badaix/snapos
+[submodule "snapcast"]
+	path = snapcast
+	url = https://github.com/badaix/snapcast
+[submodule "snapos-openwrt18"]
+	path = snapos-openwrt18
+	url = https://github.com/anabolyc/snapos
+[submodule "snapcast-openwrt18"]
+	path = snapcast-openwrt18
+	url = https://github.com/anabolyc/snapcast
